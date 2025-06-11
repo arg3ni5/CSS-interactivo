@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación Interactiva de CSS</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Hide stages by default, JavaScript will show them */
+        .stage {
+            display: none;
+        }
+        .stage.active {
+            display: block;
+        }
+        /* Custom styles for pseudo-elements example */
+        .custom-pseudo-box {
+            position: relative;
+            /* To make ::before and ::after position relative to this box */
+        }
+        .custom-pseudo-box::before {
+            content: "⬅️ "; /* Unicode emoji */
+            display: inline-block;
+            margin-right: 8px;
+            color: #d97706; /* orange-600 */
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .custom-pseudo-box::after {
+            content: " ➡️"; /* Unicode emoji */
+            display: inline-block;
+            margin-left: 8px;
+            color: #d97706; /* orange-600 */
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .highlight-border {
+            border-color: #3b82f6 !important; /* blue-500 */
+            border-width: 4px !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5); /* blue-500 with opacity */
+        }
+        .highlight-text {
+            color: #3b82f6 !important; /* blue-500 */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-6 md:p-10 transform transition-all duration-300 ease-in-out scale-95 md:scale-100">
+        <h1 class="text-4xl font-extrabold mb-8 text-center text-gray-900 leading-tight">Explorando CSS: Un Viaje Interactivo 🚀</h1>
+
+        <!-- Stage 1: Box Model -->
+        <div id="stage-1" class="stage active">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800 text-center">1. El Modelo de Caja (Box Model)</h2>
+            <p class="mb-8 text-lg text-gray-700 text-center max-w-2xl mx-auto">
+                En CSS, cada elemento HTML es tratado como una caja rectangular. Comprender el Modelo de Caja es absolutamente fundamental para posicionar y diseñar tus elementos correctamente.
+            </p>
+
+            <div class="relative w-full max-w-xs h-64 mx-auto mb-8 bg-gray-100 rounded-lg flex items-center justify-center shadow-lg overflow-hidden">
+                <!-- Interactive box model visualization -->
+                <div id="interactive-box" class="flex items-center justify-center text-center text-white transition-all duration-700 ease-in-out font-semibold text-lg bg-blue-500 w-32 h-20">
+                    Contenido
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200 text-center shadow-inner">
+                <h3 class="font-bold text-xl mb-3 text-blue-800">Explicación Actual:</h3>
+                <p id="box-model-explanation" class="text-lg text-blue-700 font-medium"></p>
+            </div>
+        </div>
+
+        <!-- Stage 2: Propiedades CSS -->
+        <div id="stage-2" class="stage">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800 text-center">2. Propiedades en CSS</h2>
+            <p class="mb-8 text-lg text-gray-700 text-center max-w-2xl mx-auto">
+                Las propiedades CSS te permiten estilizar tus elementos de infinitas maneras. Experimenta con algunas de las propiedades más comunes y observa los cambios en tiempo real.
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Live preview box -->
+                <div class="flex-1 flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-md">
+                    <div id="property-box" class="w-48 h-32 bg-purple-500 border-4 border-purple-700 rounded-lg flex items-center justify-center text-white text-lg font-bold shadow-xl transition-all duration-300 transform scale-100">
+                        Caja de Ejemplo
+                    </div>
+                    <div class="mt-6 p-4 bg-gray-800 rounded-lg w-full">
+                        <h3 class="font-bold text-xl mb-3 text-green-400">Código CSS Generado:</h3>
+                        <pre class="overflow-x-auto text-sm">
+                            <code id="css-code" class="language-css text-green-300">
+                                /* Ajusta los valores de abajo para ver el cambio */
+                                .property-box {
+                                    width: 192px;
+                                    height: 128px;
+                                    background-color: #8b5cf6; /* purple-500 */
+                                    border: 4px solid #6d28d9; /* purple-700 */
+                                    border-radius: 8px;
+                                    padding: 0px;
+                                    margin: 0px;
+                                }
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+
+                <!-- Controls for properties -->
+                <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="control-group">
+                        <label for="width-input" class="block text-sm font-semibold text-gray-700 mb-1">Ancho (px):</label>
+                        <input type="range" id="width-input" min="50" max="300" value="192" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm">
+                        <span id="width-value" class="text-sm text-gray-500 mt-1 block">192px</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="height-input" class="block text-sm font-semibold text-gray-700 mb-1">Alto (px):</label>
+                        <input type="range" id="height-input" min="50" max="300" value="128" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm">
+                        <span id="height-value" class="text-sm text-gray-500 mt-1 block">128px</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="bg-color-input" class="block text-sm font-semibold text-gray-700 mb-1">Color de Fondo:</label>
+                        <input type="color" id="bg-color-input" value="#8b5cf6" class="w-full h-10 border border-gray-300 rounded-md cursor-pointer">
+                    </div>
+                    <div class="control-group">
+                        <label for="border-width-input" class="block text-sm font-semibold text-gray-700 mb-1">Borde (px):</label>
+                        <input type="range" id="border-width-input" min="0" max="20" value="4" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm">
+                        <span id="border-width-value" class="text-sm text-gray-500 mt-1 block">4px</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="border-color-input" class="block text-sm font-semibold text-gray-700 mb-1">Color del Borde:</label>
+                        <input type="color" id="border-color-input" value="#6d28d9" class="w-full h-10 border border-gray-300 rounded-md cursor-pointer">
+                    </div>
+                    <div class="control-group">
+                        <label for="border-radius-input" class="block text-sm font-semibold text-gray-700 mb-1">Radio del Borde (px):</label>
+                        <input type="range" id="border-radius-input" min="0" max="50" value="8" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm">
+                        <span id="border-radius-value" class="text-sm text-gray-500 mt-1 block">8px</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="padding-input" class="block text-sm font-semibold text-gray-700 mb-1">Padding (px):</label>
+                        <input type="range" id="padding-input" min="0" max="50" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm">
+                        <span id="padding-value" class="text-sm text-gray-500 mt-1 block">0px</span>
+                    </div>
+                    <div class="control-group">
+                        <label for="margin-input" class="block text-sm font-semibold text-gray-700 mb-1">Margin (px):</label>
+                        <input type="range" id="margin-input" min="0" max="50" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm">
+                        <span id="margin-value" class="text-sm text-gray-500 mt-1 block">0px</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 3: Selectores CSS -->
+        <div id="stage-3" class="stage">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800 text-center">3. Selectores CSS</h2>
+            <p class="mb-8 text-lg text-gray-700 text-center max-w-2xl mx-auto">
+                Los selectores CSS son "patrones" que coinciden con elementos en el árbol HTML para aplicarles estilos. Aprende cómo apuntar a elementos específicos para darles vida.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- ID Selector -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Selector de ID: <code class="text-blue-600 font-mono">#miElementoUnico</code></h3>
+                    <p class="text-gray-600 mb-4">Selecciona un elemento HTML único por su atributo <code>id</code>. Es el más específico y solo debe haber uno por página con el mismo ID.</p>
+                    <div id="uniqueElement" class="p-4 bg-red-100 border-2 border-red-300 rounded-lg text-center cursor-pointer hover:bg-red-200 transition-all duration-200 transform hover:scale-105">
+                        <p class="text-red-700 font-semibold">Soy el elemento con ID: <code class="font-bold">uniqueElement</code></p>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2 text-center">Haz clic para aplicar/quitar estilo.</p>
+                </div>
+
+                <!-- Tag Selector -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Selector de Etiqueta: <code class="text-blue-600 font-mono">p</code>, <code class="text-blue-600 font-mono">div</code></h3>
+                    <p class="text-gray-600 mb-4">Selecciona todos los elementos de un tipo de etiqueta HTML específico (ej., todos los párrafos <code>&lt;p&gt;</code>).</p>
+                    <div class="space-y-3">
+                        <p class="tag-example p-3 bg-green-100 border border-green-300 rounded text-green-700 cursor-pointer hover:bg-green-200 transition-all duration-200">Este es un párrafo (p).</p>
+                        <div class="tag-example p-3 bg-green-100 border border-green-300 rounded text-green-700 cursor-pointer hover:bg-green-200 transition-all duration-200">Este es un div (div).</div>
+                        <p class="tag-example p-3 bg-green-100 border border-green-300 rounded text-green-700 cursor-pointer hover:bg-green-200 transition-all duration-200">Otro párrafo (p).</p>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2 text-center">Haz clic en cualquier elemento para aplicar/quitar estilo a todos los de su tipo.</p>
+                </div>
+
+                <!-- Class Selector -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Selector de Clase: <code class="text-blue-600 font-mono">.miClase</code></h3>
+                    <p class="text-gray-600 mb-4">Selecciona todos los elementos que comparten un atributo <code>class</code> específico. Permite reutilizar estilos en múltiples elementos.</p>
+                    <div class="space-y-3">
+                        <div class="common-class p-3 bg-yellow-100 border border-yellow-300 rounded text-yellow-700 cursor-pointer hover:bg-yellow-200 transition-all duration-200">Elemento con <code class="font-mono">.common-class</code> 1</div>
+                        <p class="common-class p-3 bg-yellow-100 border border-yellow-300 rounded text-yellow-700 cursor-pointer hover:bg-yellow-200 transition-all duration-200">Elemento con <code class="font-mono">.common-class</code> 2</p>
+                        <span class="common-class inline-block p-3 bg-yellow-100 border border-yellow-300 rounded text-yellow-700 cursor-pointer hover:bg-yellow-200 transition-all duration-200">Elemento con <code class="font-mono">.common-class</code> 3</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2 text-center">Haz clic en cualquier elemento para aplicar/quitar estilo a todos con la misma clase.</p>
+                </div>
+
+                <!-- Pseudoclasses & Pseudoelements -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Pseudoclases y Pseudoelementos</h3>
+                    <p class="text-gray-600 mb-4">
+                        <span class="font-semibold text-gray-700">Pseudoclases (<code class="text-blue-600 font-mono">:hover</code>, <code class="text-blue-600 font-mono">:focus</code>):</span> Estilizan elementos en un estado específico (ej., cuando el mouse está sobre ellos, o cuando un input está enfocado).
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        <span class="font-semibold text-gray-700">Pseudoelementos (<code class="text-blue-600 font-mono">::before</code>, <code class="text-blue-600 font-mono">::after</code>):</span> Crean y estilizan partes del elemento que no existen en el HTML (contenido generado).
+                    </p>
+                    <div class="flex flex-col gap-4 mb-4">
+                        <button class="p-3 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-200 font-medium">
+                            Pasa el mouse aquí / Haz clic
+                        </button>
+                        <input type="text" placeholder="Haz clic para enfocarme (focus)" class="p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200 w-full">
+                    </div>
+                    <div class="relative p-4 bg-orange-100 border-2 border-orange-300 rounded-lg text-orange-700 text-center font-medium custom-pseudo-box shadow-sm">
+                        <span class="block">Este elemento tiene <code class="font-mono">::before</code> y <code class="font-mono">::after</code>.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="mt-12 flex justify-center gap-4">
+            <button id="prev-button" class="px-6 py-3 bg-gray-300 text-gray-800 font-bold text-lg rounded-full shadow-lg hover:bg-gray-400 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                Concepto Anterior
+            </button>
+            <button id="next-button" class="px-8 py-4 bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold text-xl rounded-full shadow-lg hover:from-green-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-green-300">
+                Siguiente Concepto
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stages = document.querySelectorAll('.stage');
+            const nextButton = document.getElementById('next-button');
+            const prevButton = document.getElementById('prev-button');
+            let currentStageIndex = 0; // 0: Box Model, 1: Properties, 2: Selectors
+
+            // Box Model specific elements
+            const interactiveBox = document.getElementById('interactive-box');
+            const boxModelExplanation = document.getElementById('box-model-explanation');
+            let boxModelCurrentStep = 0;
+
+            const boxModelSteps = [
+                {
+                    css: { width: '80px', height: '60px', padding: '0px', border: '0px solid transparent', margin: '0px', backgroundColor: '#3b82f6', color: 'white', borderRadius: '0px' }, // blue-500
+                    explanation: 'El <span class="highlight-text">Contenido</span> es el área donde reside el contenido real del elemento (texto, imágenes, etc.). Sin padding, sin borde, sin margen.',
+                    text: 'Contenido'
+                },
+                {
+                    css: { width: '120px', height: '100px', padding: '20px', border: '0px solid transparent', margin: '0px', backgroundColor: '#22c55e', color: 'white', borderRadius: '0px' }, // green-500
+                    explanation: 'El <span class="highlight-text">Padding</span> (relleno) es el espacio entre el contenido y el borde del elemento. Es transparente y hace que la caja sea más grande.',
+                    text: 'Contenido + Padding'
+                },
+                {
+                    css: { width: '136px', height: '116px', padding: '20px', border: '8px solid #f97316', margin: '0px', backgroundColor: '#ef4444', color: 'white', borderRadius: '0px' }, // red-500, orange-500 border
+                    explanation: 'El <span class="highlight-text">Border</span> (borde) rodea el padding y el contenido. Puedes controlar su ancho, estilo y color. Aumenta el tamaño total.',
+                    text: 'Contenido + Padding + Border'
+                },
+                {
+                    css: { width: '136px', height: '116px', padding: '20px', border: '8px solid #f97316', margin: '20px', backgroundColor: '#8b5cf6', color: 'white', borderRadius: '0px' }, // purple-500, orange-500 border
+                    explanation: 'El <span class="highlight-text">Margin</span> (margen) es el espacio exterior al borde. Se utiliza para crear espacio entre elementos y es transparente. No afecta el tamaño interno de la caja, solo su posición respecto a otros elementos.',
+                    text: 'Contenido + Padding + Border + Margin'
+                },
+                {
+                    explanation: '¡Has completado la explicación del Modelo de Caja! Haz clic en "Siguiente Concepto" para pasar a las Propiedades CSS.',
+                    isLastStep: true
+                }
+            ];
+
+            // CSS Properties specific elements
+            const propertyBox = document.getElementById('property-box');
+            const cssCodeBlock = document.getElementById('css-code');
+            const widthInput = document.getElementById('width-input');
+            const heightInput = document.getElementById('height-input');
+            const bgColorInput = document.getElementById('bg-color-input');
+            const borderWidthInput = document.getElementById('border-width-input');
+            const borderColorInput = document.getElementById('border-color-input');
+            const borderRadiusInput = document.getElementById('border-radius-input');
+            const paddingInput = document.getElementById('padding-input');
+            const marginInput = document.getElementById('margin-input');
+
+            // Selector specific elements
+            const uniqueElement = document.getElementById('uniqueElement');
+            const tagExamples = document.querySelectorAll('.tag-example');
+            const commonClasses = document.querySelectorAll('.common-class');
+
+            // Function to update the displayed stage
+            function updateStageUI() {
+                stages.forEach((stage, index) => {
+                    if (index === currentStageIndex) {
+                        stage.classList.add('active');
+                    } else {
+                        stage.classList.remove('active');
+                    }
+                });
+
+                // Update button text and state
+                if (currentStageIndex === stages.length - 1) {
+                    nextButton.textContent = 'Reiniciar Explicación';
+                } else if (currentStageIndex === 0 && boxModelCurrentStep < boxModelSteps.length - 1) {
+                    nextButton.textContent = 'Siguiente Parte del Modelo de Caja';
+                } else {
+                    nextButton.textContent = 'Siguiente Concepto';
+                }
+
+                // Disable previous button if at the very beginning of the explanation
+                if (currentStageIndex === 0 && boxModelCurrentStep === 0) {
+                    prevButton.disabled = true;
+                } else {
+                    prevButton.disabled = false;
+                }
+
+
+                // Initialize/reset specific stage content
+                if (currentStageIndex === 0) {
+                    // Reset box model to the current step state
+                    updateBoxModelVisualization();
+                } else if (currentStageIndex === 1) {
+                    // Initialize property box
+                    updatePropertyBox(); // Apply initial values from inputs
+                } else if (currentStageIndex === 2) {
+                    // Reset selector highlights
+                    uniqueElement.classList.remove('highlight-border');
+                    tagExamples.forEach(el => el.classList.remove('highlight-border'));
+                    commonClasses.forEach(el => el.classList.remove('highlight-border'));
+                }
+            }
+
+            // Function to update the Box Model visualization
+            function updateBoxModelVisualization() {
+                if (boxModelCurrentStep >= 0 && boxModelCurrentStep < boxModelSteps.length) {
+                    const step = boxModelSteps[boxModelCurrentStep];
+                    if (step.isLastStep && boxModelCurrentStep === boxModelSteps.length -1) {
+                        // This handles the final message of the box model section
+                        boxModelExplanation.innerHTML = step.explanation;
+                        nextButton.textContent = 'Siguiente Concepto';
+                        // Keep the last visual state of the box model
+                        applyBoxModelStyles(boxModelSteps[boxModelCurrentStep -1].css);
+                        interactiveBox.textContent = boxModelSteps[boxModelCurrentStep -1].text;
+                    } else {
+                        applyBoxModelStyles(step.css);
+                        boxModelExplanation.innerHTML = step.explanation;
+                        interactiveBox.textContent = step.text;
+                        nextButton.textContent = 'Siguiente Parte del Modelo de Caja';
+                    }
+                }
+            }
+
+            function applyBoxModelStyles(styles) {
+                // Remove all previous inline styles that might interfere
+                interactiveBox.style.cssText = '';
+
+                Object.keys(styles).forEach(prop => {
+                    interactiveBox.style[prop] = styles[prop];
+                });
+            }
+
+
+            // Function to update CSS properties and code block
+            function updatePropertyBox() {
+                const width = widthInput.value;
+                const height = heightInput.value;
+                const bgColor = bgColorInput.value;
+                const borderWidth = borderWidthInput.value;
+                const borderColor = borderColorInput.value; // Corrected: was 'border-color-input.value'
+                const borderRadius = borderRadiusInput.value;
+                const padding = paddingInput.value;
+                const margin = marginInput.value;
+
+                // Update box styles
+                propertyBox.style.width = `${width}px`;
+                propertyBox.style.height = `${height}px`;
+                propertyBox.style.backgroundColor = bgColor;
+                propertyBox.style.border = `${borderWidth}px solid ${borderColor}`;
+                propertyBox.style.borderRadius = `${borderRadius}px`;
+                propertyBox.style.padding = `${padding}px`;
+                propertyBox.style.margin = `${margin}px`;
+
+                // Update range values display
+                document.getElementById('width-value').textContent = `${width}px`;
+                document.getElementById('height-value').textContent = `${height}px`;
+                document.getElementById('border-width-value').textContent = `${borderWidth}px`;
+                document.getElementById('border-radius-value').textContent = `${borderRadius}px`;
+                document.getElementById('padding-value').textContent = `${padding}px`;
+                document.getElementById('margin-value').textContent = `${margin}px`;
+
+                // Update code block
+                cssCodeBlock.innerHTML = `
+                    .property-box {
+                        width: ${width}px;
+                        height: ${height}px;
+                        background-color: ${bgColor};
+                        border: ${borderWidth}px solid ${borderColor};
+                        border-radius: ${borderRadius}px;
+                        padding: ${padding}px;
+                        margin: ${margin}px;
+                    }
+                `;
+            }
+
+            // Event listener for the main "Next" button
+            nextButton.addEventListener('click', () => {
+                if (currentStageIndex === 0) { // Box Model stage
+                    boxModelCurrentStep++;
+                    if (boxModelCurrentStep < boxModelSteps.length) {
+                        updateBoxModelVisualization();
+                    } else {
+                        currentStageIndex++; // Move to next main stage
+                        updateStageUI();
+                    }
+                } else if (currentStageIndex < stages.length - 1) {
+                    currentStageIndex++;
+                    updateStageUI();
+                } else {
+                    // End of explanation, reset to start
+                    currentStageIndex = 0;
+                    boxModelCurrentStep = 0; // Reset box model steps
+                    updateStageUI();
+                }
+            });
+
+            // Event listener for the "Previous" button
+            prevButton.addEventListener('click', () => {
+                if (currentStageIndex === 0) { // Box Model stage
+                    boxModelCurrentStep--;
+                    if (boxModelCurrentStep >= 0) {
+                        updateBoxModelVisualization();
+                    } else {
+                        // Cannot go back further than the very first step of the first stage
+                        boxModelCurrentStep = 0; // Ensure it stays at 0
+                        updateStageUI(); // Update button state
+                    }
+                } else {
+                    currentStageIndex--;
+                    // When going back to the Box Model stage, ensure it goes to the *last* step of the box model,
+                    // so the user can then go back further within the box model steps.
+                    if (currentStageIndex === 0) {
+                         boxModelCurrentStep = boxModelSteps.length - 1;
+                    }
+                    updateStageUI();
+                }
+            });
+
+            // Event listeners for CSS Properties inputs
+            const propertyInputs = document.querySelectorAll('#stage-2 input[type="range"], #stage-2 input[type="color"]');
+            propertyInputs.forEach(input => {
+                input.addEventListener('input', updatePropertyBox);
+            });
+
+            // Event listeners for CSS Selectors (click to highlight)
+            uniqueElement.addEventListener('click', () => {
+                uniqueElement.classList.toggle('highlight-border');
+            });
+
+            tagExamples.forEach(element => {
+                element.addEventListener('click', () => {
+                    const tagName = element.tagName.toLowerCase();
+                    document.querySelectorAll(`.tag-example[data-tag="${tagName}"]`).forEach(el => {
+                        el.classList.toggle('highlight-border');
+                    });
+                });
+            });
+
+            // Attach data-tag for easier selection
+            document.querySelectorAll('.tag-example').forEach(el => {
+                el.setAttribute('data-tag', el.tagName.toLowerCase());
+            });
+
+
+            commonClasses.forEach(element => {
+                element.addEventListener('click', () => {
+                    document.querySelectorAll('.common-class').forEach(el => {
+                        el.classList.toggle('highlight-border');
+                    });
+                });
+            });
+
+
+            // Initial UI update
+            updateStageUI();
+        });
+    </script>
+</body>
+</html>
