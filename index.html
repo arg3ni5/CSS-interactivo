@@ -50,6 +50,25 @@
             color: #3b82f6 !important; /* blue-500 */
             font-weight: bold;
         }
+         /* Loading spinner styles - removed as it's no longer used */
+        /*
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        */
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex items-center justify-center p-4">
@@ -106,6 +125,14 @@
                                 }
                             </code>
                         </pre>
+                        <!-- Removed: Gemini API explanation button and output div -->
+                        <!--
+                        <button id="explain-css-button" class="mt-4 w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                            ✨ Explicar este CSS
+                            <span id="explain-css-spinner" class="spinner hidden"></span>
+                        </button>
+                        <div id="css-explanation-output" class="mt-4 p-4 bg-blue-100 text-blue-800 rounded-lg text-left hidden"></div>
+                        -->
                     </div>
                 </div>
 
@@ -169,6 +196,7 @@
                         <p class="text-red-700 font-semibold">Soy el elemento con ID: <code class="font-bold">uniqueElement</code></p>
                     </div>
                     <p class="text-gray-500 text-sm mt-2 text-center">Haz clic para aplicar/quitar estilo.</p>
+                    <div id="unique-element-message" class="mt-3 p-2 bg-blue-50 text-blue-800 rounded-md text-sm hidden"></div>
                 </div>
 
                 <!-- Tag Selector -->
@@ -181,6 +209,7 @@
                         <p class="tag-example p-3 bg-green-100 border border-green-300 rounded text-green-700 cursor-pointer hover:bg-green-200 transition-all duration-200">Otro párrafo (p).</p>
                     </div>
                     <p class="text-gray-500 text-sm mt-2 text-center">Haz clic en cualquier elemento para aplicar/quitar estilo a todos los de su tipo.</p>
+                    <div id="tag-example-message" class="mt-3 p-2 bg-blue-50 text-blue-800 rounded-md text-sm hidden"></div>
                 </div>
 
                 <!-- Class Selector -->
@@ -193,27 +222,27 @@
                         <span class="common-class inline-block p-3 bg-yellow-100 border border-yellow-300 rounded text-yellow-700 cursor-pointer hover:bg-yellow-200 transition-all duration-200">Elemento con <code class="font-mono">.common-class</code> 3</span>
                     </div>
                     <p class="text-gray-500 text-sm mt-2 text-center">Haz clic en cualquier elemento para aplicar/quitar estilo a todos con la misma clase.</p>
+                    <div id="common-class-message" class="mt-3 p-2 bg-blue-50 text-blue-800 rounded-md text-sm hidden"></div>
                 </div>
 
-                <!-- Pseudoclasses & Pseudoelements -->
-                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                    <h3 class="text-xl font-bold mb-3 text-gray-800">Pseudoclases y Pseudoelementos</h3>
-                    <p class="text-gray-600 mb-4">
-                        <span class="font-semibold text-gray-700">Pseudoclases (<code class="text-blue-600 font-mono">:hover</code>, <code class="text-blue-600 font-mono">:focus</code>):</span> Estilizan elementos en un estado específico (ej., cuando el mouse está sobre ellos, o cuando un input está enfocado).
-                    </p>
-                    <p class="text-gray-600 mb-4">
-                        <span class="font-semibold text-gray-700">Pseudoelementos (<code class="text-blue-600 font-mono">::before</code>, <code class="text-blue-600 font-mono">::after</code>):</span> Crean y estilizan partes del elemento que no existen en el HTML (contenido generado).
-                    </p>
-                    <div class="flex flex-col gap-4 mb-4">
-                        <button class="p-3 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-200 font-medium">
-                            Pasa el mouse aquí / Haz clic
-                        </button>
-                        <input type="text" placeholder="Haz clic para enfocarme (focus)" class="p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200 w-full">
+                <!-- Combinator Selector (Descendant) -->
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100 col-span-1 md:col-span-2">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Selector Combinador: Descendiente (<code class="text-blue-600 font-mono">div p</code>)</h3>
+                    <p class="text-gray-600 mb-4">Selecciona todos los elementos <code>&lt;p&gt;</code> que son **descendientes** de un elemento <code>&lt;div&gt;</code> (es decir, dentro de un <code>&lt;div&gt;</code>, directa o indirectamente).</p>
+                    <div id="descendant-example" class="p-4 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 text-left cursor-pointer hover:bg-gray-100 transition-all duration-200">
+                        <div class="bg-gray-100 p-3 mb-2 rounded border border-gray-200">
+                            <p class="descendant-target p-2 bg-blue-50 rounded text-blue-700">Este es un párrafo dentro de un div.</p>
+                            <span class="text-gray-600">Este es un span.</span>
+                            <div class="mt-2 p-2 bg-gray-200 rounded border border-gray-300">
+                                <p class="descendant-target p-2 bg-blue-50 rounded text-blue-700">Otro párrafo, anidado más profundo.</p>
+                            </div>
+                        </div>
+                        <p class="p-2 bg-red-50 rounded text-red-700">Este párrafo NO está dentro de un div (es un elemento hermano).</p>
                     </div>
-                    <div class="relative p-4 bg-orange-100 border-2 border-orange-300 rounded-lg text-orange-700 text-center font-medium custom-pseudo-box shadow-sm">
-                        <span class="block">Este elemento tiene <code class="font-mono">::before</code> y <code class="font-mono">::after</code>.</span>
-                    </div>
+                    <p class="text-gray-500 text-sm mt-2 text-center">Haz clic en la caja gris para aplicar/quitar estilo a los párrafos descendientes.</p>
+                    <div id="descendant-message" class="mt-3 p-2 bg-blue-50 text-blue-800 rounded-md text-sm hidden"></div>
                 </div>
+
             </div>
         </div>
 
@@ -278,11 +307,22 @@
             const borderRadiusInput = document.getElementById('border-radius-input');
             const paddingInput = document.getElementById('padding-input');
             const marginInput = document.getElementById('margin-input');
+            // Removed: explainCssButton, explainCssSpinner, cssExplanationOutput variables
+
 
             // Selector specific elements
             const uniqueElement = document.getElementById('uniqueElement');
             const tagExamples = document.querySelectorAll('.tag-example');
             const commonClasses = document.querySelectorAll('.common-class');
+            const descendantExample = document.getElementById('descendant-example'); // New: reference to the descendant example container
+            const descendantTargets = document.querySelectorAll('.descendant-target'); // New: elements to be targeted by descendant selector
+
+            // Message elements for selectors
+            const uniqueElementMessage = document.getElementById('unique-element-message');
+            const tagExampleMessage = document.getElementById('tag-example-message');
+            const commonClassMessage = document.getElementById('common-class-message');
+            const descendantMessage = document.getElementById('descendant-message');
+
 
             // Function to update the displayed stage
             function updateStageUI() {
@@ -294,7 +334,7 @@
                     }
                 });
 
-                // Update button text and state
+                // Update button text and state based on currentStageIndex
                 if (currentStageIndex === stages.length - 1) {
                     nextButton.textContent = 'Reiniciar Explicación';
                 } else if (currentStageIndex === 0 && boxModelCurrentStep < boxModelSteps.length - 1) {
@@ -310,38 +350,47 @@
                     prevButton.disabled = false;
                 }
 
-
-                // Initialize/reset specific stage content
+                // Initialize/reset specific stage content when stage changes
                 if (currentStageIndex === 0) {
-                    // Reset box model to the current step state
-                    updateBoxModelVisualization();
+                    updateBoxModelVisualization(); // Update visuals and code for current Box Model step
                 } else if (currentStageIndex === 1) {
-                    // Initialize property box
                     updatePropertyBox(); // Apply initial values from inputs
+                    // Removed: cssExplanationOutput related lines
                 } else if (currentStageIndex === 2) {
-                    // Reset selector highlights
+                    // Reset selector highlights and messages
                     uniqueElement.classList.remove('highlight-border');
                     tagExamples.forEach(el => el.classList.remove('highlight-border'));
                     commonClasses.forEach(el => el.classList.remove('highlight-border'));
+                    descendantTargets.forEach(el => el.classList.remove('highlight-border')); // Reset descendant targets
+
+                    uniqueElementMessage.classList.add('hidden');
+                    uniqueElementMessage.textContent = '';
+                    tagExampleMessage.classList.add('hidden');
+                    tagExampleMessage.textContent = '';
+                    commonClassMessage.classList.add('hidden');
+                    commonClassMessage.textContent = '';
+                    descendantMessage.classList.add('hidden');
+                    descendantMessage.textContent = '';
                 }
             }
 
-            // Function to update the Box Model visualization
+            // Function to update the Box Model visualization (only responsible for box model visuals and text)
             function updateBoxModelVisualization() {
                 if (boxModelCurrentStep >= 0 && boxModelCurrentStep < boxModelSteps.length) {
                     const step = boxModelSteps[boxModelCurrentStep];
-                    if (step.isLastStep && boxModelCurrentStep === boxModelSteps.length -1) {
-                        // This handles the final message of the box model section
+
+                    // If it's the last step (the "completed explanation" message)
+                    if (step.isLastStep) {
                         boxModelExplanation.innerHTML = step.explanation;
-                        nextButton.textContent = 'Siguiente Concepto';
-                        // Keep the last visual state of the box model
-                        applyBoxModelStyles(boxModelSteps[boxModelCurrentStep -1].css);
-                        interactiveBox.textContent = boxModelSteps[boxModelCurrentStep -1].text;
+                        // Keep the visual state of the *previous* step
+                        const lastVisualStepIndex = boxModelCurrentStep > 0 ? boxModelCurrentStep - 1 : 0;
+                        applyBoxModelStyles(boxModelSteps[lastVisualStepIndex].css);
+                        interactiveBox.textContent = boxModelSteps[lastVisualStepIndex].text;
                     } else {
+                        // Regular visual step
                         applyBoxModelStyles(step.css);
                         boxModelExplanation.innerHTML = step.explanation;
                         interactiveBox.textContent = step.text;
-                        nextButton.textContent = 'Siguiente Parte del Modelo de Caja';
                     }
                 }
             }
@@ -355,6 +404,10 @@
                 });
             }
 
+            // Helper function to convert camelCase to kebab-case for CSS properties
+            function kebabCase(str) {
+                return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+            }
 
             // Function to update CSS properties and code block
             function updatePropertyBox() {
@@ -362,7 +415,7 @@
                 const height = heightInput.value;
                 const bgColor = bgColorInput.value;
                 const borderWidth = borderWidthInput.value;
-                const borderColor = borderColorInput.value; // Corrected: was 'border-color-input.value'
+                const borderColor = borderColorInput.value;
                 const borderRadius = borderRadiusInput.value;
                 const padding = paddingInput.value;
                 const margin = marginInput.value;
@@ -396,49 +449,53 @@
                         margin: ${margin}px;
                     }
                 `;
+                 // Removed: cssExplanationOutput related lines
             }
+
+            // Removed: Gemini API Integration (explainCssButton event listener and associated functions)
+
 
             // Event listener for the main "Next" button
             nextButton.addEventListener('click', () => {
                 if (currentStageIndex === 0) { // Box Model stage
                     boxModelCurrentStep++;
-                    if (boxModelCurrentStep < boxModelSteps.length) {
+                    if (boxModelCurrentStep < boxModelSteps.length) { // Still within box model steps
                         updateBoxModelVisualization();
-                    } else {
-                        currentStageIndex++; // Move to next main stage
-                        updateStageUI();
+                    } else { // All box model steps are done, transition to next main stage
+                        currentStageIndex++;
+                        boxModelCurrentStep = 0; // Reset for when we eventually come back to stage 0
                     }
-                } else if (currentStageIndex < stages.length - 1) {
+                } else if (currentStageIndex < stages.length - 1) { // Normal progression
                     currentStageIndex++;
-                    updateStageUI();
-                } else {
-                    // End of explanation, reset to start
+                } else { // End of explanation, reset to start
                     currentStageIndex = 0;
                     boxModelCurrentStep = 0; // Reset box model steps
-                    updateStageUI();
                 }
+                updateStageUI(); // Always update overall UI after click logic
             });
 
             // Event listener for the "Previous" button
             prevButton.addEventListener('click', () => {
                 if (currentStageIndex === 0) { // Box Model stage
                     boxModelCurrentStep--;
-                    if (boxModelCurrentStep >= 0) {
-                        updateBoxModelVisualization();
-                    } else {
-                        // Cannot go back further than the very first step of the first stage
-                        boxModelCurrentStep = 0; // Ensure it stays at 0
-                        updateStageUI(); // Update button state
+                    if (boxModelCurrentStep < 0) { // Trying to go back from the very first box model step
+                        // Loop back to the last *main* stage (Selectors)
+                        currentStageIndex = stages.length - 1;
+                        // Set boxModelCurrentStep to its last *visual* step
+                        boxModelCurrentStep = boxModelSteps.length - 2;
+                        if (boxModelCurrentStep < 0) boxModelCurrentStep = 0; // Ensure it doesn't go below 0
                     }
-                } else {
+                    updateBoxModelVisualization(); // Always update box model visuals
+                } else { // Normal regression
                     currentStageIndex--;
-                    // When going back to the Box Model stage, ensure it goes to the *last* step of the box model,
-                    // so the user can then go back further within the box model steps.
+                    // If we are now on the Box Model stage (came from Properties)
                     if (currentStageIndex === 0) {
-                         boxModelCurrentStep = boxModelSteps.length - 1;
+                         // Set boxModelCurrentStep to the last *visual* step of the box model
+                         boxModelCurrentStep = boxModelSteps.length - 2;
+                         if (boxModelCurrentStep < 0) boxModelCurrentStep = 0;
                     }
-                    updateStageUI();
                 }
+                updateStageUI(); // Always update overall UI after click logic
             });
 
             // Event listeners for CSS Properties inputs
@@ -447,33 +504,72 @@
                 input.addEventListener('input', updatePropertyBox);
             });
 
-            // Event listeners for CSS Selectors (click to highlight)
+            // Event listeners for CSS Selectors (click to highlight and show message)
             uniqueElement.addEventListener('click', () => {
-                uniqueElement.classList.toggle('highlight-border');
+                const isActive = uniqueElement.classList.toggle('highlight-border');
+                if (isActive) {
+                    uniqueElementMessage.textContent = 'Se aplicó la clase ".highlight-border" (borde azul, sombra).';
+                    uniqueElementMessage.classList.remove('hidden');
+                } else {
+                    uniqueElementMessage.textContent = '';
+                    uniqueElementMessage.classList.add('hidden');
+                }
             });
 
             tagExamples.forEach(element => {
                 element.addEventListener('click', () => {
-                    const tagName = element.tagName.toLowerCase();
-                    document.querySelectorAll(`.tag-example[data-tag="${tagName}"]`).forEach(el => {
-                        el.classList.toggle('highlight-border');
+                    let isActive = false;
+                    tagExamples.forEach(el => {
+                        const currentIsActive = el.classList.toggle('highlight-border');
+                        if (currentIsActive) isActive = true;
                     });
+
+                    if (isActive) {
+                        tagExampleMessage.textContent = `Se aplicó la clase ".highlight-border" a todos los <${element.tagName.toLowerCase()}> (borde azul, sombra).`;
+                        tagExampleMessage.classList.remove('hidden');
+                    } else {
+                        tagExampleMessage.textContent = '';
+                        tagExampleMessage.classList.add('hidden');
+                    }
                 });
             });
-
-            // Attach data-tag for easier selection
-            document.querySelectorAll('.tag-example').forEach(el => {
-                el.setAttribute('data-tag', el.tagName.toLowerCase());
-            });
-
 
             commonClasses.forEach(element => {
                 element.addEventListener('click', () => {
-                    document.querySelectorAll('.common-class').forEach(el => {
-                        el.classList.toggle('highlight-border');
+                    let isActive = false;
+                    commonClasses.forEach(el => {
+                        const currentIsActive = el.classList.toggle('highlight-border');
+                        if (currentIsActive) isActive = true;
                     });
+
+                    if (isActive) {
+                        commonClassMessage.textContent = 'Se aplicó la clase ".highlight-border" a todos los elementos con ".common-class" (borde azul, sombra).';
+                        commonClassMessage.classList.remove('hidden');
+                    } else {
+                        commonClassMessage.textContent = '';
+                        commonClassMessage.classList.add('hidden');
+                    }
                 });
             });
+
+            // Event listener for Descendant Selector example
+            if (descendantExample) { // Check if element exists
+                descendantExample.addEventListener('click', () => {
+                    let isActive = false;
+                    descendantTargets.forEach(el => {
+                        const currentIsActive = el.classList.toggle('highlight-border');
+                        if (currentIsActive) isActive = true;
+                    });
+
+                    if (isActive) {
+                        descendantMessage.textContent = 'Se aplicó la clase ".highlight-border" a los párrafos descendientes de un div (selector "div p").';
+                        descendantMessage.classList.remove('hidden');
+                    } else {
+                        descendantMessage.textContent = '';
+                        descendantMessage.classList.add('hidden');
+                    }
+                });
+            }
 
 
             // Initial UI update
