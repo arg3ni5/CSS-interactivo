@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación Interactiva de CSS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            color: #334155; /* Darker text */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .section-card {
+            background-color: #ffffff;
+            border-radius: 1rem; /* More rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #1e293b; /* Slate-900 */
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .subsection-title {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 600; /* font-semibold */
+            color: #334155; /* Slate-700 */
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #cbd5e1; /* Slate-300 */
+            padding-bottom: 0.5rem;
+        }
+        .code-block {
+            background-color: #e2e8f0; /* Slate-200 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+            overflow-x: auto;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background-color: #1e293b; /* Dark slate */
+            padding: 1rem 0;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .navbar-list {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .navbar-item a {
+            color: #e2e8f0; /* Light slate */
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .navbar-item a:hover {
+            background-color: #334155; /* Medium slate */
+        }
+
+        /* Animations Specific Styles */
+        @keyframes colorChangeAndMove {
+            0% { background-color: #ef4444; transform: translateX(0); } /* Red */
+            25% { background-color: #f97316; transform: translateX(50px); } /* Orange */
+            50% { background-color: #eab308; transform: translateX(0); } /* Yellow */
+            75% { background-color: #22c55e; transform: translateX(-50px); } /* Green */
+            100% { background-color: #0ea5e9; transform: translateX(0); } /* Blue */
+        }
+
+        @keyframes rotateAndScale {
+            0% { transform: rotate(0deg) scale(1); background-color: #facc15; } /* Yellow */
+            50% { transform: rotate(180deg) scale(1.2); background-color: #8b5cf6; } /* Violet */
+            100% { transform: rotate(360deg) scale(1); background-color: #facc15; } /* Yellow */
+        }
+
+        @keyframes pulseEffect {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } /* Emerald */
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .animated-box {
+            width: 100px;
+            height: 100px;
+            background-color: #ef4444;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin: 2rem auto;
+            animation-play-state: paused; /* Paused by default */
+        }
+        .animated-box.running {
+            animation-play-state: running;
+        }
+
+        /* Transitions Specific Styles */
+        .transition-box {
+            width: 100px;
+            height: 100px;
+            background-color: #3b82f6; /* Blue */
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin: 2rem auto;
+            transition: background-color 0.5s ease-in-out, transform 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+        }
+        .transition-box:hover {
+            background-color: #ec4899; /* Pink */
+            transform: scale(1.1) rotate(5deg);
+            border-radius: 50%; /* Circle on hover */
+        }
+
+        /* Canvas Specific Styles */
+        canvas {
+            background-color: #f8fafc; /* White */
+            border: 2px solid #cbd5e1; /* Slate-300 */
+            border-radius: 0.75rem;
+            display: block;
+            margin: 2rem auto;
+            max-width: 100%; /* Ensure responsiveness */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .action-button {
+            background-color: #4f46e5; /* Indigo-600 */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .action-button:hover {
+            background-color: #4338ca; /* Indigo-700 */
+        }
+        .action-button:active {
+            transform: translateY(1px);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .control-group label {
+            font-weight: 600;
+            color: #475569; /* Slate-600 */
+        }
+        .control-group select {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #cbd5e1;
+            background-color: #f8fafc;
+            font-size: 1rem;
+            color: #334155;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-5xl font-extrabold text-center text-gray-900 my-8">Explorando CSS: Animaciones, Transiciones y Canvas</h1>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <ul class="navbar-list">
+                <li class="navbar-item"><a href="#intro">Introducción</a></li>
+                <li class="navbar-item"><a href="#animations">Animaciones</a></li>
+                <li class="navbar-item"><a href="#transitions">Transiciones</a></li>
+                <li class="navbar-item"><a href="#canvas">Canvas</a></li>
+            </ul>
+        </nav>
+
+        <div class="section-card" id="intro">
+            <h2 class="section-title">Introducción a CSS</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                CSS (Cascading Style Sheets) es un lenguaje de hojas de estilo que se utiliza para describir la presentación de un documento escrito en HTML. CSS describe cómo deben mostrarse los elementos en pantalla, en papel o en otros medios. Es fundamental para darle vida y estilo a nuestras páginas web.
+            </p>
+            <p class="text-lg leading-relaxed">
+                En esta página, exploraremos tres conceptos poderosos que nos permiten crear experiencias de usuario dinámicas y visualmente atractivas: las Animaciones CSS, las Transiciones CSS y el elemento HTML &lt;canvas&gt; para dibujar con JavaScript.
+            </p>
+        </div>
+
+        <div class="section-card" id="animations">
+            <h2 class="section-title">a. Animaciones CSS</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                Las animaciones CSS nos permiten crear movimientos complejos y secuencias de estilo a lo largo del tiempo. A diferencia de las transiciones, las animaciones pueden tener múltiples "pasos" (keyframes) y se pueden controlar de forma más granular.
+            </p>
+            <h3 class="subsection-title">Conceptos Clave:</h3>
+            <ul class="list-disc list-inside mb-4 text-lg leading-relaxed">
+                <li><code>@keyframes</code>: Define los diferentes estados de la animación en puntos específicos de tiempo (porcentajes).</li>
+                <li>Propiedades <code>animation-*</code>: Controlan cómo se aplica la animación a un elemento (duración, retardo, iteraciones, dirección, etc.).</li>
+            </ul>
+            <h3 class="subsection-title">Ejemplo Interactivo:</h3>
+            <p class="text-lg leading-relaxed mb-4">
+                Selecciona una animación del menú desplegable y haz clic en "Iniciar Animación" para verla en acción.
+            </p>
+            <div class="control-group">
+                <label for="animationSelector">Seleccionar Animación:</label>
+                <select id="animationSelector" onchange="changeAnimation()">
+                    <option value="colorChangeAndMove">Cambio de Color y Movimiento</option>
+                    <option value="rotateAndScale">Rotar y Escalar</option>
+                    <option value="pulseEffect">Efecto de Pulso</option>
+                </select>
+            </div>
+            <div class="animated-box" id="animationBox">Animado</div>
+            <div class="button-group">
+                <button class="action-button" onclick="startAnimation()">Iniciar Animación</button>
+                <button class="action-button" onclick="pauseAnimation()">Pausar Animación</button>
+                <button class="action-button" onclick="stopAnimation()">Detener Animación</button>
+            </div>
+            <h3 class="subsection-title">Código de las Animaciones:</h3>
+            <div class="code-block">
+                <pre><code>
+/* Animación 1: Cambio de Color y Movimiento */
+@keyframes colorChangeAndMove {
+    0% { background-color: #ef4444; transform: translateX(0); } /* Rojo */
+    25% { background-color: #f97316; transform: translateX(50px); } /* Naranja */
+    50% { background-color: #eab308; transform: translateX(0); } /* Amarillo */
+    75% { background-color: #22c55e; transform: translateX(-50px); } /* Verde */
+    100% { background-color: #0ea5e9; transform: translateX(0); } /* Azul */
+}
+
+/* Animación 2: Rotar y Escalar */
+@keyframes rotateAndScale {
+    0% { transform: rotate(0deg) scale(1); background-color: #facc15; } /* Amarillo */
+    50% { transform: rotate(180deg) scale(1.2); background-color: #8b5cf6; } /* Violeta */
+    100% { transform: rotate(360deg) scale(1); background-color: #facc15; } /* Amarillo */
+}
+
+/* Animación 3: Efecto de Pulso */
+@keyframes pulseEffect {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } /* Esmeralda */
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Aplicación de la animación al elemento (la animación específica se aplica con JS) */
+.animated-box {
+    animation-duration: 5s; /* Duración por defecto */
+    animation-iteration-count: infinite; /* Repetición infinita */
+    animation-direction: alternate; /* Alterna la dirección */
+    animation-timing-function: ease-in-out; /* Curva de velocidad */
+    animation-play-state: paused; /* Pausada por defecto */
+}
+.animated-box.running {
+    animation-play-state: running;
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="section-card" id="transitions">
+            <h2 class="section-title">b. Transiciones CSS</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                Las transiciones CSS nos permiten cambiar suavemente las propiedades de un elemento de un estado a otro en un período de tiempo determinado. Son perfectas para efectos simples como cambios de color, tamaño o posición al interactuar con un elemento (por ejemplo, al pasar el ratón por encima).
+            </p>
+            <h3 class="subsection-title">Conceptos Clave:</h3>
+            <ul class="list-disc list-inside mb-4 text-lg leading-relaxed">
+                <li><code>transition-property</code>: La propiedad CSS a la que se aplicará la transición.</li>
+                <li><code>transition-duration</code>: El tiempo que durará la transición.</li>
+                <li><code>transition-timing-function</code>: La curva de velocidad de la transición (ej. <code>ease</code>, <code>linear</code>, <code>ease-in-out</code>).</li>
+                <li><code>transition-delay</code>: Un retardo antes de que comience la transición.</li>
+            </ul>
+            <h3 class="subsection-title">Ejemplo Interactivo:</h3>
+            <p class="text-lg leading-relaxed mb-4">
+                Pasa el ratón por encima del cuadro de abajo para ver la transición.
+            </p>
+            <div class="transition-box">Transición</div>
+            <h3 class="subsection-title">Código de la Transición:</h3>
+            <div class="code-block">
+                <pre><code>
+.transition-box {
+    background-color: #3b82f6; /* Azul */
+    transition: background-color 0.5s ease-in-out,
+                transform 0.5s ease-in-out,
+                border-radius 0.5s ease-in-out;
+}
+.transition-box:hover {
+    background-color: #ec4899; /* Rosa */
+    transform: scale(1.1) rotate(5deg);
+    border-radius: 50%; /* Se vuelve un círculo */
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="section-card" id="canvas">
+            <h2 class="section-title">c. El Elemento HTML &lt;canvas&gt;</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                El elemento &lt;canvas&gt; de HTML5 proporciona una API de dibujo para renderizar gráficos 2D y 3D en el navegador utilizando JavaScript. No es CSS en sí mismo, pero es una herramienta poderosa para crear gráficos dinámicos que a menudo complementan los efectos visuales de CSS.
+            </p>
+            <h3 class="subsection-title">Conceptos Clave:</h3>
+            <ul class="list-disc list-inside mb-4 text-lg leading-relaxed">
+                <li>Es un "lienzo" en blanco: por sí mismo no dibuja nada.</li>
+                <li>Se necesita JavaScript para dibujar en él.</li>
+                <li><code>getContext('2d')</code>: Obtiene el contexto de dibujo 2D para dibujar formas, texto, imágenes, etc.</li>
+                <li><code>beginPath()</code>, <code>moveTo()</code>, <code>lineTo()</code>, <code>stroke()</code>, <code>fill()</code>: Métodos comunes para dibujar formas.</li>
+            </ul>
+            <h3 class="subsection-title">Ejemplo Interactivo:</h3>
+            <p class="text-lg leading-relaxed mb-4">
+                Aquí hay un ejemplo simple de un círculo que se dibuja en el canvas y se mueve.
+            </p>
+            <canvas id="myCanvas" width="400" height="200"></canvas>
+            <div class="button-group">
+                <button class="action-button" onclick="startCanvasAnimation()">Iniciar Animación Canvas</button>
+                <button class="action-button" onclick="stopCanvasAnimation()">Detener Animación Canvas</button>
+            </div>
+            <h3 class="subsection-title">Código del Canvas:</h3>
+            <div class="code-block">
+                <pre><code>
+&lt;canvas id="myCanvas" width="400" height="200"&gt;&lt;/canvas&gt;
+
+&lt;script&gt;
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let x = 50;
+    let dx = 2; // Velocidad del movimiento
+    let animationFrameId;
+
+    function drawCircle() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas
+        ctx.beginPath();
+        ctx.arc(x, canvas.height / 2, 20, 0, Math.PI * 2); // Dibujar un círculo
+        ctx.fillStyle = '#10b981'; // Color verde esmeralda
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function animateCanvas() {
+        drawCircle();
+        x += dx;
+        if (x + 20 > canvas.width || x - 20 < 0) {
+            dx = -dx; // Invertir dirección al tocar los bordes
+        }
+        animationFrameId = requestAnimationFrame(animateCanvas); // Bucle de animación
+    }
+
+    function startCanvasAnimation() {
+        if (!animationFrameId) { // Evitar múltiples bucles
+            animateCanvas();
+        }
+    }
+
+    function stopCanvasAnimation() {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
+    // Dibujar el círculo inicial
+    drawCircle();
+&lt;/script&gt;
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="section-card text-center">
+            <h2 class="section-title">¡Conclusión!</h2>
+            <p class="text-lg leading-relaxed">
+                Esperamos que esta página interactiva te haya ayudado a comprender mejor las Animaciones CSS, las Transiciones CSS y el uso del elemento &lt;canvas&gt;. ¡Estas herramientas son esenciales para crear interfaces de usuario modernas y atractivas en la web!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript para la sección de Animaciones
+        const animationBox = document.getElementById('animationBox');
+        const animationSelector = document.getElementById('animationSelector');
+        let currentAnimation = animationSelector.value; // Inicializar con la animación seleccionada
+
+        // Función para aplicar la animación seleccionada
+        function applyAnimation(animationName) {
+            // Eliminar cualquier animación existente para evitar conflictos
+            animationBox.style.animationName = 'none';
+            // Forzar un reflow para asegurar que la animación anterior se "despegue"
+            void animationBox.offsetWidth;
+            animationBox.style.animationName = animationName;
+            animationBox.style.animationDuration = '5s';
+            animationBox.style.animationIterationCount = 'infinite';
+            animationBox.style.animationDirection = 'alternate';
+            animationBox.style.animationTimingFunction = 'ease-in-out';
+            animationBox.style.animationPlayState = 'paused'; // Siempre empezar pausado
+            animationBox.classList.remove('running'); // Asegurarse de que no esté corriendo automáticamente
+            // Restablecer transformaciones para que la nueva animación empiece desde cero
+            animationBox.style.transform = 'none';
+            // Restablecer color de fondo si es necesario para animaciones que no lo cambian
+            if (animationName !== 'colorChangeAndMove') {
+                animationBox.style.backgroundColor = '#ef4444'; // Color inicial por defecto
+            }
+        }
+
+        // Función que se llama al cambiar la selección de la animación
+        function changeAnimation() {
+            currentAnimation = animationSelector.value;
+            applyAnimation(currentAnimation);
+            animationBox.textContent = currentAnimation.replace(/([A-Z])/g, ' $1').trim(); // Actualizar texto
+        }
+
+        function startAnimation() {
+            animationBox.classList.add('running');
+            animationBox.style.animationPlayState = 'running';
+        }
+
+        function pauseAnimation() {
+            animationBox.classList.remove('running');
+            animationBox.style.animationPlayState = 'paused';
+        }
+
+        function stopAnimation() {
+            animationBox.classList.remove('running');
+            animationBox.style.animationPlayState = 'paused'; // Pausar primero
+            animationBox.style.animation = 'none'; // Eliminar la animación
+            // Para reiniciar la animación, necesitamos re-aplicarla
+            setTimeout(() => {
+                applyAnimation(currentAnimation); // Re-aplicar la animación actual
+                animationBox.textContent = currentAnimation.replace(/([A-Z])/g, ' $1').trim(); // Restablecer texto
+            }, 10); // Pequeño retardo para que el navegador "olvide" la animación anterior
+        }
+
+        // Inicializar la animación al cargar la página
+        window.addEventListener('load', () => {
+            changeAnimation(); // Establece la primera animación por defecto y su texto
+        });
+
+
+        // JavaScript para la sección de Canvas
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        let x = 50;
+        let dx = 2; // Velocidad del movimiento
+        let animationFrameId; // Para controlar el bucle de requestAnimationFrame
+
+        // Función para dibujar el círculo
+        function drawCircle() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar todo el canvas
+            ctx.beginPath();
+            // Dibujar un círculo: arc(x, y, radio, anguloInicio, anguloFin)
+            ctx.arc(x, canvas.height / 2, 20, 0, Math.PI * 2);
+            ctx.fillStyle = '#10b981'; // Color verde esmeralda
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // Función para animar el círculo
+        function animateCanvas() {
+            drawCircle();
+            x += dx; // Mover el círculo
+
+            // Rebotar en los bordes
+            if (x + 20 > canvas.width || x - 20 < 0) {
+                dx = -dx;
+            }
+            animationFrameId = requestAnimationFrame(animateCanvas); // Solicitar el siguiente frame
+        }
+
+        // Funciones para controlar la animación del canvas
+        function startCanvasAnimation() {
+            if (!animationFrameId) { // Asegurarse de que no haya múltiples bucles de animación
+                animateCanvas();
+            }
+        }
+
+        function stopCanvasAnimation() {
+            cancelAnimationFrame(animationFrameId); // Detener el bucle de animación
+            animationFrameId = null; // Reiniciar el ID del frame de animación
+            // Opcional: restablecer la posición del círculo y redibujar
+            x = 50;
+            dx = 2;
+            drawCircle();
+        }
+
+        // Dibujar el círculo inicial cuando la página carga
+        window.onload = function() {
+            drawCircle();
+        };
+
+        // Responsividad del Canvas
+        function resizeCanvas() {
+            // Ajustar el ancho del canvas para que sea responsivo
+            const parentWidth = canvas.parentElement.clientWidth;
+            canvas.width = Math.min(parentWidth - 40, 600); // Max 600px, o ancho del padre menos padding
+            // Redibujar el contenido del canvas después de redimensionar
+            drawCircle();
+            // Si la animación está corriendo, reiniciarla para que se ajuste al nuevo tamaño
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animateCanvas();
+            }
+        }
+
+        // Escuchar el evento de redimensionamiento de la ventana
+        window.addEventListener('resize', resizeCanvas);
+        // Llamar resizeCanvas al cargar para establecer el tamaño inicial
+        resizeCanvas();
+    </script>
+</body>
+</html>
